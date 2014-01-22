@@ -1,0 +1,61 @@
+//default value for direction
+@dir-default: ltr;
+
+.dir(){
+    .a() when (@dir-default = ltr){
+        @var-left: left;
+        @var-rigtt: right;
+    }
+
+    .b() when (@dir-default = rtl){
+        @var-left: right;
+        @var-right: left;
+    }
+
+    .a();
+    .b();
+}
+
+.dir-value(@property, @first, @second) {
+    .a() when (@dir-default = ltr){
+        @{property}: @first;
+    }
+
+    .b() when (@dir-default = rtl){
+        @{property}: @second;
+    }
+
+    .a();
+    .b();
+}
+
+.dir-values(@property, @val1, @val2, @val3, @val4) {
+    .a() when (@dir-default = ltr){
+        @{property}: e( %("%spx %spx %spx %spx", @val1, @val2, @val3, @val4));
+    }
+
+    .b() when (@dir-default = rtl){
+        @{property}: e( %("%spx %spx %spx %spx", @val1, @val4, @val3, @val2));
+    }
+
+    .a();
+    .b();
+}
+
+//example
+.test{
+    .dir();
+    text-align: @var-left;
+    border-@{var-left}: 1px solid #333;
+    .dir-value(left, 10px, 50px);
+    .dir-values(padding, 10px, 20px, 30px,40px)
+}
+
+.show-only-for-ltr when (@dir-default = ltr){
+    color: red;
+}
+
+.show-only-for-rtl when (@dir-default = rtl){
+    font-size: 12px;
+}
+

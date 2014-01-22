@@ -1,0 +1,36 @@
+//default value for direction
+dir-default = rtl
+
+dir-value(first, second)
+  return dir-default == ltr? first : second
+
+
+dir-values(val1, val2, val3, val4)
+  if dir-default == rtl
+    return s('%s %s %s %s', val1 val4 val3 val2)
+  else
+    return s('%s %s %s %s', val1 val2 val3 val4)
+
+dir(direction)
+  {block} if direction == dir-default
+
+
+
+val-left = dir-value(left, right)
+val-right = dir-value(right, left)
+
+//example
+.test
+  text-align: val-left
+  border-{val-left}: 1px solid #333
+  left dir-value(10px, 50px)
+  padding dir-values( 10px, 20px, 30px, 40px)
+
+
++dir(ltr)
+  .show-only-for-ltr
+    color: red;
+
++dir(rtl)
+  .show-only-for-rtl
+    font-size: 12px;

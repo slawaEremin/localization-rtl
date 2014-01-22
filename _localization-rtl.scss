@@ -1,0 +1,48 @@
+//default value for direction
+$dir-default: ltr !default;
+
+@function dir-value($first, $second){
+    @if $dir-default == ltr {
+        @return $first;
+    } @else{
+        @return $second;
+    }
+}
+
+@function dir-values($values){
+    @if $dir-default == 'rtl' and length($values) == 4 {
+        @return nth($values, 1) nth($values, 4) nth($values, 3) nth($values, 2);
+    } @else{
+        @return $values;
+    }
+}
+
+@mixin dir($direction){
+    @if $direction == $dir-default{
+        @content;
+    }
+}
+
+$val-left: dir-value(left, right);
+$val-right: dir-value(right, left);
+
+
+//example
+.test {
+    text-align: $val-left;
+    border-#{$val-left}: 1px solid #333;
+    left: dir-value(10px, 50px);
+    padding: dir-values(10px 20px 30px 40px);
+}
+
+@include dir(ltr) {
+    .show-only-for-ltr {
+        color: red;
+    }
+}
+
+@include dir(rtl) {
+    .show-only-for-rtl {
+        font-size: 12px;
+    }
+}
